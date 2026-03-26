@@ -1,5 +1,5 @@
 services:
-  server:
+  fitness-server:
     build: ./server
     restart: unless-stopped
     environment:
@@ -9,20 +9,35 @@ services:
     volumes:
       - db_data:/data
     networks:
-      - app
+      - internal
 
-  client:
+  fitness-client:
     build: ./client
     restart: unless-stopped
-    ports:
-      - "80:80"
     depends_on:
-      - server
+      - fitness-server
     networks:
-      - app
+      - traefik-proxy
+      - internal
+    labels:
+      - "traefik.enable=true"
+      # HTTPS router
+      - "traefik.http.routers.fitness.rule=Host(`fitness.pagesharper.com`)"
+      - "traefik.http.routers.fitness.entrypoints=websecure"
+      - "traefik.http.routers.fitness.tls.certresolver=letsencrypt"
+      # HTTP → HTTPS redirect
+      - "traefik.http.routers.fitness-http.rule=Host(`fitness.pagesharper.com`)"
+      - "traefik.http.routers.fitness-http.entrypoints=web"
+      - "traefik.http.routers.fitness-http.middlewares=fitness-https-redirect"
+      - "traefik.http.middlewares.fitness-https-redirect.redirectscheme.scheme=https"
+      # Tell Traefik which port nginx listens on
+      - "traefik.http.services.fitness.loadbalancer.server.port=80"
 
 volumes:
   db_data:
 
 networks:
-  app:
+  traefik-proxy:
+    external: true   # joins the existing Traefik network
+  internal:
+    internal: true   # private network between fitness-client and fitness-server
