@@ -7,6 +7,7 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import LogWorkout from './pages/LogWorkout';
 import History from './pages/History';
+import Stats from './pages/Stats';
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
               <Route path="/" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
               <Route path="/log" element={<PrivateRoute><LogWorkout /></PrivateRoute>} />
               <Route path="/history" element={<PrivateRoute><History /></PrivateRoute>} />
+              <Route path="/stats" element={<PrivateRoute><Stats /></PrivateRoute>} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </main>
