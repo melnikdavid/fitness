@@ -46,8 +46,6 @@ export default function History() {
           {filtered.map((workout) => {
             const date = new Date(workout.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
             const totalSets = workout.exercises.reduce((a, ex) => a + ex.sets.length, 0);
-            const totalVol = workout.exercises.reduce((a, ex) =>
-              a + ex.sets.reduce((b, s) => b + s.reps * s.weight, 0), 0);
 
             return (
               <div key={workout.id} className="card">
@@ -60,7 +58,6 @@ export default function History() {
                     <div className="flex gap-6 mt-3 text-sm">
                       <span className="text-gray-400">{workout.exercises.length} exercises</span>
                       <span className="text-gray-400">{totalSets} sets</span>
-                      {totalVol > 0 && <span className="text-gray-400">{totalVol.toLocaleString()} kg total volume</span>}
                     </div>
 
                     <div className="mt-3 space-y-1">
@@ -69,7 +66,7 @@ export default function History() {
                           <span className="text-gray-300">{ex.name}</span>
                           <span className="text-gray-500 ml-2">
                             {ex.sets.map((s, i) => (
-                              <span key={i}>{i > 0 && ', '}{s.reps}×{s.weight}kg</span>
+                              <span key={i}>{i > 0 && ', '}{s.reps} reps</span>
                             ))}
                           </span>
                         </div>
