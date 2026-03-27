@@ -47,7 +47,7 @@ router.post('/', auth, async (req, res) => {
         exercises: {
           create: (exercises || []).map((ex) => ({
             name: ex.name,
-            sets: { create: ex.sets.map((s) => ({ reps: s.reps, weight: s.weight })) },
+            sets: { create: ex.sets.map((s) => ({ reps: s.reps })) },
           })),
         },
       },

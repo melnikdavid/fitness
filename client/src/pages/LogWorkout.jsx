@@ -65,7 +65,7 @@ export default function LogWorkout() {
           name: ex.name,
           sets: ex.sets
             .filter((s) => s.reps !== '')
-            .map((s) => ({ reps: Number(s.reps), weight: 0 })),
+            .map((s) => ({ reps: Number(s.reps) })),
         })),
       });
       navigate('/');
