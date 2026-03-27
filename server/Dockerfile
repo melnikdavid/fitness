@@ -13,5 +13,5 @@ COPY .env.example .env.example
 
 EXPOSE 3001
 
-# Push schema to DB then start server
-CMD ["sh", "-c", "npx prisma db push --skip-generate && node src/index.js"]
+# Run pending migrations then start server
+CMD ["sh", "-c", "npx prisma migrate deploy && node src/index.js"]
